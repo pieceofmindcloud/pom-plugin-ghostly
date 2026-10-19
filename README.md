@@ -23,4 +23,4 @@ scripts/build.sh --platform linux-x86_64
 scripts/package.sh --platform linux-x86_64 --version 0.1.0
 ```
 
-Supported package platforms: `linux-x86_64` and `macos-aarch64` (the runtime also supports Linux arm64). The manual `Publish plugin release` workflow attaches the packages and their `pom-plugin-<os>-<arch>.json` manifests to a GitHub release, for POM's **Add from GitHub** flow.
+Supported package platforms: `linux-x86_64` and `macos-aarch64` (the runtime also supports Linux arm64). The manual `Publish plugin release` workflow attaches the packages and their `pom-plugin-<os>-<arch>.json` manifests to a GitHub release, for POM's **Add from GitHub** flow. A stable release (not a prerelease) is then uploaded to the license server by `scripts/publish-to-license-server.sh`, with the repository secret `POM_RELEASE_TOKEN` (a `release_manager` operator token) and, optionally, `POM_RELEASE_API`.
