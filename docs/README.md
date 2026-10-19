@@ -4,6 +4,8 @@
 
 The plugin's screen is **Ghostly's own web app**, full screen: chats, groups, identities and wallets, with the profile kept in your browser. It opens straight on the join screen of the network's group, with the network's link, so a browser asks to be let in without a click.
 
+It follows the POM's theme: when the POM switches between light and dark, Ghostly switches with it, in the POM's colours (its surfaces, lines, text and teal accent over Ghostly's ice-blue theme). The POM's theme wins over the one chosen in Ghostly's Settings.
+
 ## What happens when the plugin starts
 
 1. **Runtime.** It downloads Node.js `v24.22.0` (verified against the SHA-256 published by nodejs.org), asks GitHub for the latest Ghostly release, downloads that tag's source from the original repository and builds the Ghostly CLI and web app with `npm` (the web app with `--base` set to the plugin's proxy path). The Ghostly code is not modified. Each start checks for a newer release and builds it, keeping the previous build until the new one is complete; offline, the newest build is used.

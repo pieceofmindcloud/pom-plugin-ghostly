@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { getPluginApi, usePluginI18n } from "../host/runtime";
+import { getPluginApi, usePluginI18n, usePomContext } from "../host/runtime";
 import { useScreenReady } from "../host/ready";
+import { holdPomTheme } from "./ghostlyTheme";
 
 /** Where the POM serves Ghostly's own web app (the plugin's proxy). */
 const WEB_BASE = `/api/ui/plugins/${encodeURIComponent(__POM_PLUGIN_CODE__)}/proxy/web/`;
@@ -119,6 +120,8 @@ export function Ghostly() {
   const { state, failed } = useNodeState();
   const [address, setAddress] = useState<string | null>(null);
   const joined = useRef(false);
+  const frame = useRef<HTMLIFrameElement>(null);
+  const { theme } = usePomContext();
   const installed = state !== null && state.version !== null && state.stage !== "installing";
   const link = state?.group?.link ?? null;
   useScreenReady(state !== null || failed);
@@ -135,6 +138,12 @@ export function Ghostly() {
     }
   }, [installed, link]);
 
+  // Ghostly follows the POM's light or dark theme, in the POM's colours.
+  useEffect(() => {
+    if (!frame.current) return;
+    return holdPomTheme(frame.current, theme);
+  }, [theme, address]);
+
   return (
     <main className="pb-page pb-ghostly-page">
       {installed && !window.isSecureContext ? (
@@ -142,6 +151,7 @@ export function Ghostly() {
       ) : installed && address ? (
         <iframe
           key={address}
+          ref={frame}
           className="pb-frame"
           src={address}
           title="Ghostly"
