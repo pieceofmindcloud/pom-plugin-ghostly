@@ -2,10 +2,7 @@
 
 [Ghostly](https://github.com/MiguelMedeiros/ghostly), the end-to-end encrypted, peer-to-peer messenger with wallets, inside the POM, and a group of every node of the network. There is no chat server: peers meet on the Mainline DHT and talk directly.
 
-The plugin's screen is **Ghostly's own web app**: chats, groups, identities and wallets, with the profile kept in your browser. Above it, a POM bar shows this node's own member of the network's group and offers two shortcuts:
-
-- **Join the network's group** opens the group's join screen in Ghostly with the network's link.
-- **Prove the node key** signs, with the node's Ed25519 key, the DID statement Ghostly drafts for your browser profile (Identities, DID, the node's `did:key`), so your profile proves the node key too.
+The plugin's screen is **Ghostly's own web app**, full screen: chats, groups, identities and wallets, with the profile kept in your browser. It opens straight on the join screen of the network's group, with the network's link, so a browser asks to be let in without a click.
 
 ## What happens when the plugin starts
 
@@ -13,7 +10,7 @@ The plugin's screen is **Ghostly's own web app**: chats, groups, identities and 
 2. **Engine.** It runs `ghostly daemon` on the node's own profile, in the plugin's data directory: the node's member of the group, online while the node is.
 3. **Identity.** The profile gets a Ghostly identity proof (`did`, WISP 311) for the node's own Ed25519 key, the key behind its node id and its pkarr record, written as a `did:key`. The node signs the statement; the key never leaves the node.
 4. **Group.** The principal of the network creates one Ghostly community, `POM network`. The other nodes' plugins ask it for the link through the network's signed peer channel and join. When the principal changes, the nodes move to the new principal's group.
-5. **Members.** Every plugin tells the others, through the same signed channel, which member key it holds in the group, so the bar can say how many members are nodes of the network.
+5. **Members.** Every plugin tells the others, through the same signed channel, which member key it holds in the group, so the node can tell how many members are nodes of the network.
 
 ## Requirements
 

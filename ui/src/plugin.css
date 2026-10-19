@@ -108,54 +108,16 @@ html[data-theme="light"] .pb-page {
 .pb-btn-small { padding: 6px 12px; font-size: 12px; }
 
 /* -------------------------------- ghostly -------------------------------- */
-/* A thin POM bar above Ghostly's own web app, which fills the rest. */
-.pb-ghostly-page { display: flex; flex-direction: column; gap: 10px; overflow: hidden; padding: 10px; }
+/* Ghostly's own web app fills the whole screen, edge to edge. */
+.pb-ghostly-page { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
 .pb-ghostly-page > * { width: 100%; max-width: none; }
-
-.pb-bar {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
-  padding: 8px 14px;
-  border: 1px solid var(--pb-panel-line); border-radius: 18px;
-  color: var(--pb-panel-ink); background: var(--pb-panel);
-}
-.pb-bar .pb-eyebrow { margin: 0; color: var(--pb-panel-ink-3); }
-.pb-bar-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
-.pb-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; list-style: none; }
-.pb-chip {
-  display: inline-flex; align-items: center; gap: 6px; max-width: 100%;
-  padding: 4px 10px; border: 1px solid var(--pb-panel-line); border-radius: 999px;
-  color: var(--pb-panel-ink-2); background: var(--pb-panel-fill);
-  font: 600 11px/1.3 var(--pb-mono);
-}
-.pb-chip strong { overflow: hidden; color: var(--pb-panel-ink); font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
-.pb-chip-ok { border-color: rgba(47, 220, 200, .45); }
-.pb-chip-ok::before { content: "✓"; color: #2fdcc8; }
+.pb-ghostly-page > .pb-state-card { width: calc(100% - 32px); max-width: 640px; }
 
 .pb-frame {
-  flex: 1 1 auto; min-height: 0; width: 100%;
-  border: 1px solid var(--pb-line); border-radius: 18px;
+  display: block; flex: 1 1 auto; min-height: 0; width: 100%;
+  border: 0; border-radius: 0;
   background: var(--pb-bg);
 }
-
-.pb-panel {
-  display: grid; gap: 10px; padding: 16px 18px;
-  border: 1px solid var(--pb-line); border-radius: 18px;
-  background: var(--pb-card); box-shadow: var(--pb-shadow);
-}
-.pb-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.pb-panel h2 { font-size: 15px; font-weight: 800; letter-spacing: -.03em; }
-.pb-howto { display: grid; gap: 6px; padding-left: 20px; color: var(--pb-ink-2); font-size: 13.5px; }
-.pb-copyline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; }
-.pb-copyline code {
-  overflow-wrap: anywhere; padding: 3px 8px; border-radius: 8px;
-  color: var(--pb-accent); background: var(--pb-accent-soft); font: 12px/1.5 var(--pb-mono);
-}
-.pb-input {
-  width: 100%; resize: vertical;
-  padding: 10px 14px; border: 1px solid var(--pb-line); border-radius: 14px;
-  color: var(--pb-ink); background: transparent; font: 12.5px/1.5 var(--pb-mono);
-}
-.pb-input:focus { outline: 2px solid var(--pb-accent); outline-offset: 1px; }
 .pb-btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
 
 .pb-state-card { max-width: 640px; margin: 8vh auto 0; padding: 26px 28px; border: 1px solid var(--pb-line); border-radius: 22px; background: var(--pb-card); box-shadow: var(--pb-shadow); }

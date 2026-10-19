@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { getPluginApi, postPluginApi, usePluginI18n } from "../host/runtime";
+import { useEffect, useRef, useState } from "react";
+import { getPluginApi, usePluginI18n } from "../host/runtime";
 import { useScreenReady } from "../host/ready";
 
 /** Where the POM serves Ghostly's own web app (the plugin's proxy). */
@@ -71,15 +71,6 @@ function useNodeState(): { state: NodeState | null; failed: boolean } {
   return { state, failed };
 }
 
-function shortKey(value: string | undefined | null, size = 12): string {
-  if (!value) return "";
-  return value.length > size * 2 ? `${value.slice(0, size)}…${value.slice(-4)}` : value;
-}
-
-function copy(text: string) {
-  void navigator.clipboard?.writeText(text).catch(() => {});
-}
-
 function Setup({ state, failed }: { state: NodeState | null; failed: boolean }) {
   const { t } = usePluginI18n();
   if (!state) {
@@ -124,115 +115,31 @@ function Insecure() {
   );
 }
 
-/** Proves the node key in the browser's profile: Ghostly drafts, the node signs. */
-function ProveKey({ didKey, onClose }: { didKey: string; onClose: () => void }) {
-  const { t } = usePluginI18n();
-  const [statement, setStatement] = useState("");
-  const [signature, setSignature] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
-  const sign = async () => {
-    setBusy(true);
-    setError(null);
-    setSignature(null);
-    try {
-      const answer = await postPluginApi<{ signature: string }>("sign", { statement: statement.trim() });
-      setSignature(answer.signature);
-    } catch (failure) {
-      setError(failure instanceof Error ? failure.message : String(failure));
-    } finally {
-      setBusy(false);
-    }
-  };
-  return (
-    <section className="pb-panel" aria-label={t("prove.title")}>
-      <div className="pb-panel-head">
-        <h2>{t("prove.title")}</h2>
-        <button className="pb-btn pb-btn-outline pb-btn-small" type="button" onClick={onClose}>{t("close")}</button>
-      </div>
-      <ol className="pb-howto">
-        <li>{t("prove.step1")}</li>
-        <li>
-          {t("prove.step2")}
-          <span className="pb-copyline">
-            <code>{didKey}</code>
-            <button className="pb-btn pb-btn-outline pb-btn-small" type="button" onClick={() => copy(didKey)}>{t("copy")}</button>
-          </span>
-        </li>
-        <li>{t("prove.step3")}</li>
-      </ol>
-      <textarea
-        className="pb-input"
-        rows={3}
-        value={statement}
-        placeholder={t("prove.placeholder")}
-        onChange={(event) => setStatement(event.target.value)}
-      />
-      <div className="pb-btn-row">
-        <button className="pb-btn pb-btn-accent" type="button" disabled={busy || !statement.trim()} onClick={() => void sign()}>
-          {busy ? t("prove.signing") : t("prove.sign")}
-        </button>
-      </div>
-      {signature && (
-        <p className="pb-copyline">
-          <span>{t("prove.step4")}</span>
-          <code>{shortKey(signature, 16)}</code>
-          <button className="pb-btn pb-btn-accent pb-btn-small" type="button" onClick={() => copy(signature)}>{t("copy")}</button>
-        </p>
-      )}
-      {error && <p className="pb-error" role="alert">{error}</p>}
-    </section>
-  );
-}
-
 export function Ghostly() {
-  const { t } = usePluginI18n();
   const { state, failed } = useNodeState();
-  const [address, setAddress] = useState(WEB_BASE);
-  const [proving, setProving] = useState(false);
+  const [address, setAddress] = useState<string | null>(null);
+  const joined = useRef(false);
   const installed = state !== null && state.version !== null && state.stage !== "installing";
+  const link = state?.group?.link ?? null;
   useScreenReady(state !== null || failed);
 
-  const members = state?.group?.members ?? [];
-  const nodes = members.filter((member) => member.node?.node_id).length;
-  const memberReady = state?.stage === "ready" && state.group?.status === "active";
-  const link = state?.group?.link ?? null;
-  const didKey = state?.node.did_key ?? null;
+  // Straight to the network's group: the app opens on its join screen as soon
+  // as the node knows the link, once per visit.
+  useEffect(() => {
+    if (!installed) return;
+    if (link && !joined.current) {
+      joined.current = true;
+      setAddress(joinAddress(link));
+    } else if (!link) {
+      setAddress((current) => current ?? WEB_BASE);
+    }
+  }, [installed, link]);
 
   return (
     <main className="pb-page pb-ghostly-page">
-      <header className="pb-bar">
-        <p className="pb-eyebrow"><span className="pb-tick" aria-hidden="true" />{t("eyebrow", { version: state?.version ?? "" })}</p>
-        <ul className="pb-chips">
-          <li className={`pb-chip${memberReady ? " pb-chip-ok" : ""}`} title={state?.error ?? undefined}>
-            {t("chip.member")} <strong>{memberReady ? t("chip.inGroup") : t(`stage.${state?.stage ?? "waiting"}`)}</strong>
-          </li>
-          {state?.group && (
-            <li className="pb-chip">{t("chip.members")} <strong>{t("chip.nodes", { nodes, total: members.length })}</strong></li>
-          )}
-          {state?.identity?.proof && (
-            <li className="pb-chip pb-chip-ok" title={state.identity.did_key}>{t("chip.identity")} <strong>{shortKey(state.identity.did_key)}</strong></li>
-          )}
-        </ul>
-        <div className="pb-bar-actions">
-          {installed && link && (
-            <button className="pb-btn pb-btn-accent pb-btn-small" type="button" onClick={() => setAddress(joinAddress(link))}>
-              {t("join")}
-            </button>
-          )}
-          {installed && didKey && (
-            <button className="pb-btn pb-btn-outline pb-btn-small" type="button" onClick={() => setProving((open) => !open)}>
-              {t("prove.open")}
-            </button>
-          )}
-        </div>
-      </header>
-
-      {proving && didKey && <ProveKey didKey={didKey} onClose={() => setProving(false)} />}
-
       {installed && !window.isSecureContext ? (
         <Insecure />
-      ) : installed ? (
+      ) : installed && address ? (
         <iframe
           key={address}
           className="pb-frame"
