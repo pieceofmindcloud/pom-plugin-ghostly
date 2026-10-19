@@ -1,0 +1,178 @@
+/* Ghostly for POM. Visual language of pieceofmind.cloud (pom-website/v1/styles.css):
+   the navy -> teal logo gradient, a floating dark hero panel, monospaced
+   numbered eyebrows with a gradient tick, very round cards and pill buttons.
+   Colours follow the POM theme through html[data-theme]; nothing is global:
+   every rule hangs off .pb-page, and the build renames "pb-" to the plugin code. */
+
+.pb-page {
+  --pb-blue: #4f9bff;
+  --pb-cyan: #35c9f0;
+  --pb-teal: #2fdcc8;
+  --pb-bg: #0b0a0f;
+  --pb-ink: #f4f2f7;
+  --pb-ink-2: #b6b1bf;
+  --pb-ink-3: #8f8a99;
+  --pb-line: rgba(255, 255, 255, .14);
+  --pb-line-soft: rgba(255, 255, 255, .08);
+  --pb-card: rgba(255, 255, 255, .045);
+  --pb-shadow: 0 18px 58px rgba(0, 0, 0, .5);
+  --pb-accent: var(--pb-blue);
+  --pb-accent-soft: rgba(79, 155, 255, .14);
+  --pb-panel: #0b1421;
+  --pb-panel-line: rgba(255, 255, 255, .13);
+  --pb-panel-ink: #ffffff;
+  --pb-panel-ink-2: rgba(255, 255, 255, .66);
+  --pb-panel-ink-3: rgba(255, 255, 255, .56);
+  --pb-panel-fill: rgba(255, 255, 255, .055);
+  --pb-ok: #2fdcc8;
+  --pb-no: #ff7a8a;
+  --pb-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --pb-sans: Inter, "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  box-sizing: border-box;
+  min-height: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: clamp(16px, 3vw, 34px) clamp(16px, 4vw, 34px) clamp(40px, 6vw, 72px);
+  color: var(--pb-ink);
+  background: var(--pb-bg);
+  font-family: var(--pb-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: -.012em;
+  color-scheme: dark;
+}
+
+html[data-theme="light"] .pb-page {
+  --pb-blue: #123f8f;
+  --pb-cyan: #0d7297;
+  --pb-teal: #0b8279;
+  --pb-bg: #f8f6f7;
+  --pb-ink: #18151b;
+  --pb-ink-2: #4a4551;
+  --pb-ink-3: #6d6775;
+  --pb-line: rgba(24, 21, 27, .12);
+  --pb-line-soft: rgba(24, 21, 27, .07);
+  --pb-card: rgba(255, 255, 255, .78);
+  --pb-shadow: 0 18px 58px rgba(6, 30, 62, .10);
+  --pb-accent-soft: rgba(18, 63, 143, .10);
+  --pb-panel: #080f18;
+  --pb-ok: #0b8279;
+  --pb-no: #b4233c;
+  color-scheme: light;
+}
+
+.pb-page *,
+.pb-page *::before,
+.pb-page *::after { box-sizing: border-box; }
+
+.pb-page h1,
+.pb-page h2,
+.pb-page h3,
+.pb-page p,
+.pb-page ol,
+.pb-page ul,
+.pb-page pre { margin: 0; }
+
+.pb-page > * { max-width: 1180px; margin-inline: auto; }
+
+.pb-eyebrow {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px;
+  color: var(--pb-ink-3);
+  font: 700 10px/1.2 var(--pb-mono);
+  letter-spacing: .22em; text-transform: uppercase;
+}
+.pb-eyebrow-hero { color: var(--pb-panel-ink-3); }
+.pb-tick {
+  display: inline-block; width: 26px; height: 2px; flex: 0 0 auto; border-radius: 2px;
+  background: linear-gradient(90deg, var(--pb-blue), var(--pb-teal));
+}
+.pb-gradient-text {
+  background: linear-gradient(96deg, var(--pb-blue) 0%, var(--pb-cyan) 48%, var(--pb-teal) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.pb-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 18px; border: 1px solid transparent; border-radius: 999px;
+  font: 700 13px/1.2 var(--pb-sans); letter-spacing: -.01em;
+  cursor: pointer; transition: transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease, filter .15s ease;
+}
+.pb-btn:hover { transform: translateY(-1px); }
+.pb-btn:disabled { opacity: .55; cursor: default; transform: none; }
+.pb-btn:focus-visible { outline: 2px solid var(--pb-accent); outline-offset: 3px; }
+.pb-btn-outline { color: var(--pb-ink); background: transparent; border-color: var(--pb-line); }
+.pb-btn-outline:hover { color: var(--pb-accent); border-color: var(--pb-accent); background: var(--pb-accent-soft); }
+.pb-btn-accent { color: #ffffff; background: linear-gradient(96deg, var(--pb-blue), var(--pb-teal)); }
+.pb-btn-accent:hover { filter: brightness(1.08); }
+.pb-btn-small { padding: 6px 12px; font-size: 12px; }
+
+/* -------------------------------- ghostly -------------------------------- */
+/* A thin POM bar above Ghostly's own web app, which fills the rest. */
+.pb-ghostly-page { display: flex; flex-direction: column; gap: 10px; overflow: hidden; padding: 10px; }
+.pb-ghostly-page > * { width: 100%; max-width: none; }
+
+.pb-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+  padding: 8px 14px;
+  border: 1px solid var(--pb-panel-line); border-radius: 18px;
+  color: var(--pb-panel-ink); background: var(--pb-panel);
+}
+.pb-bar .pb-eyebrow { margin: 0; color: var(--pb-panel-ink-3); }
+.pb-bar-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+.pb-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; list-style: none; }
+.pb-chip {
+  display: inline-flex; align-items: center; gap: 6px; max-width: 100%;
+  padding: 4px 10px; border: 1px solid var(--pb-panel-line); border-radius: 999px;
+  color: var(--pb-panel-ink-2); background: var(--pb-panel-fill);
+  font: 600 11px/1.3 var(--pb-mono);
+}
+.pb-chip strong { overflow: hidden; color: var(--pb-panel-ink); font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.pb-chip-ok { border-color: rgba(47, 220, 200, .45); }
+.pb-chip-ok::before { content: "✓"; color: #2fdcc8; }
+
+.pb-frame {
+  flex: 1 1 auto; min-height: 0; width: 100%;
+  border: 1px solid var(--pb-line); border-radius: 18px;
+  background: var(--pb-bg);
+}
+
+.pb-panel {
+  display: grid; gap: 10px; padding: 16px 18px;
+  border: 1px solid var(--pb-line); border-radius: 18px;
+  background: var(--pb-card); box-shadow: var(--pb-shadow);
+}
+.pb-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pb-panel h2 { font-size: 15px; font-weight: 800; letter-spacing: -.03em; }
+.pb-howto { display: grid; gap: 6px; padding-left: 20px; color: var(--pb-ink-2); font-size: 13.5px; }
+.pb-copyline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; }
+.pb-copyline code {
+  overflow-wrap: anywhere; padding: 3px 8px; border-radius: 8px;
+  color: var(--pb-accent); background: var(--pb-accent-soft); font: 12px/1.5 var(--pb-mono);
+}
+.pb-input {
+  width: 100%; resize: vertical;
+  padding: 10px 14px; border: 1px solid var(--pb-line); border-radius: 14px;
+  color: var(--pb-ink); background: transparent; font: 12.5px/1.5 var(--pb-mono);
+}
+.pb-input:focus { outline: 2px solid var(--pb-accent); outline-offset: 1px; }
+.pb-btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.pb-state-card { max-width: 640px; margin: 8vh auto 0; padding: 26px 28px; border: 1px solid var(--pb-line); border-radius: 22px; background: var(--pb-card); box-shadow: var(--pb-shadow); }
+.pb-state-card h2 { margin-bottom: 8px !important; font-size: 20px; font-weight: 900; letter-spacing: -.04em; }
+.pb-state-card p { color: var(--pb-ink-2); font-size: 14px; }
+.pb-steps { display: grid; gap: 6px; margin-top: 16px !important; padding: 0; list-style: none; }
+.pb-steps li { display: flex; align-items: center; gap: 10px; color: var(--pb-ink-3); font-size: 13.5px; }
+.pb-steps li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--pb-line); }
+.pb-step-done { color: var(--pb-ink-2) !important; }
+.pb-step-done::before { background: var(--pb-ok); border-color: var(--pb-ok) !important; }
+.pb-step-now { color: var(--pb-ink) !important; font-weight: 700; }
+.pb-step-now::before { background: var(--pb-accent); border-color: var(--pb-accent) !important; animation: pb-live 1.6s ease-out infinite; }
+.pb-error { padding: 10px 14px; border-radius: 12px; color: var(--pb-no) !important; background: color-mix(in srgb, var(--pb-no) 10%, transparent); font: 12.5px/1.5 var(--pb-mono) !important; overflow-wrap: anywhere; }
+
+@keyframes pb-live { 0% { box-shadow: 0 0 0 0 rgba(79, 155, 255, .55); } 70%, 100% { box-shadow: 0 0 0 7px rgba(79, 155, 255, 0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pb-btn { transition: none; }
+  .pb-page *, .pb-page *::before, .pb-page *::after { animation: none !important; }
+}

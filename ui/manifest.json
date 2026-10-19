@@ -1,0 +1,51 @@
+{
+  "schema": "pom-plugin-ui/v1",
+  "plugin_code": "ghostly",
+  "icon_image": "ui/icon.png",
+  "description": {
+    "en": "A group chat of every node of the network on Ghostly, the end-to-end encrypted peer-to-peer messenger. The plugin builds the latest Ghostly release from its original repository, proves each member with its node's own Ed25519 key, and joins the group the network's principal holds.",
+    "pt-BR": "Um chat em grupo com todos os nós da rede no Ghostly, o mensageiro ponto a ponto cifrado de ponta a ponta. O plugin compila a versão mais recente do Ghostly a partir do repositório original, prova cada membro com a própria chave Ed25519 do nó e entra no grupo mantido pelo principal da rede."
+  },
+  "documentation": [
+    "docs/README.md"
+  ],
+  "menu": [
+    {
+      "id": "ghostly",
+      "label": {
+        "en": "Ghostly",
+        "pt-BR": "Ghostly"
+      },
+      "icon": "messages-square",
+      "to": "/ghostly"
+    }
+  ],
+  "routes": [
+    {
+      "path": "/ghostly",
+      "screen": "ghostly",
+      "full_bleed": true
+    }
+  ],
+  "screens": {
+    "ghostly": {
+      "module": "ui/screens.js",
+      "export": "ghostly",
+      "styles": [
+        "ui/plugin.css"
+      ]
+    }
+  },
+  "i18n": {
+    "en": "i18n/en.json",
+    "pt-BR": "i18n/pt-BR.json"
+  },
+  "assets": [
+    "ui/screens.js",
+    "ui/plugin.css",
+    "ui/icon.png",
+    "i18n/en.json",
+    "i18n/pt-BR.json",
+    "docs/README.md"
+  ]
+}

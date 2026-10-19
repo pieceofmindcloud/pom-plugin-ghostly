@@ -1,0 +1,15 @@
+[package]
+name = "pom-plugin-ghostly"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+flate2 = "1"
+serde_json = "1"
+sha2 = "0.10"
+tar = "0.4"
+ureq = { version = "2", default-features = false, features = ["tls"] }
