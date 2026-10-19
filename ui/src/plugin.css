@@ -161,6 +161,7 @@ html[data-theme="light"] .pb-page {
 .pb-state-card { max-width: 640px; margin: 8vh auto 0; padding: 26px 28px; border: 1px solid var(--pb-line); border-radius: 22px; background: var(--pb-card); box-shadow: var(--pb-shadow); }
 .pb-state-card h2 { margin-bottom: 8px !important; font-size: 20px; font-weight: 900; letter-spacing: -.04em; }
 .pb-state-card p { color: var(--pb-ink-2); font-size: 14px; }
+.pb-state-card .pb-btn-row { margin-top: 16px; }
 .pb-steps { display: grid; gap: 6px; margin-top: 16px !important; padding: 0; list-style: none; }
 .pb-steps li { display: flex; align-items: center; gap: 10px; color: var(--pb-ink-3); font-size: 13.5px; }
 .pb-steps li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--pb-line); }

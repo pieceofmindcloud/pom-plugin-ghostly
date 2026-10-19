@@ -108,6 +108,22 @@ function Setup({ state, failed }: { state: NodeState | null; failed: boolean }) 
   );
 }
 
+/** Ghostly needs Web Crypto and Web Locks, which the browser gives only to a
+ * secure context: plain http to anything but localhost never runs it. */
+function Insecure() {
+  const { t } = usePluginI18n();
+  const secure = `https://${location.host}${location.pathname}${location.search}${location.hash}`;
+  return (
+    <section className="pb-state-card" role="alert">
+      <h2>{t("insecure.title")}</h2>
+      <p>{t("insecure.body")}</p>
+      <p className="pb-btn-row">
+        <a className="pb-btn pb-btn-accent" href={secure}>{t("insecure.open")}</a>
+      </p>
+    </section>
+  );
+}
+
 /** Proves the node key in the browser's profile: Ghostly drafts, the node signs. */
 function ProveKey({ didKey, onClose }: { didKey: string; onClose: () => void }) {
   const { t } = usePluginI18n();
@@ -214,7 +230,9 @@ export function Ghostly() {
 
       {proving && didKey && <ProveKey didKey={didKey} onClose={() => setProving(false)} />}
 
-      {installed ? (
+      {installed && !window.isSecureContext ? (
+        <Insecure />
+      ) : installed ? (
         <iframe
           key={address}
           className="pb-frame"
